@@ -1,9 +1,14 @@
 # crto-notes
 
-# RTO Infrastructure 
+## Cobalt Strike
 
-- ### Redirectors
-	- ### HTTP Redirectors
+[Cobalt Strike Cheatsheet - Payloads All The Things](https://gitlab.com/pentest-tools/PayloadsAllTheThings/-/blob/master/Methodology%20and%20Resources/Cobalt%20Strike%20-%20Cheatsheet.md?ref_type=heads)
+
+## RTO Infrastructure 
+
+## Redirectors
+
+### HTTP Redirectors
 
 [High-reputation Redirectors & Domain Fronting](https://www.cobaltstrike.com/blog/high-reputation-redirectors-and-domain-fronting)
 
@@ -17,8 +22,8 @@
 
 ![redirector2empire](https://truneski.github.io/post/images/domain-fronting/wireshark.png)
 
-- ### Redirectors
-	- ### DNS Redirectors
+
+### DNS Redirectors
 
 
 [Socat UDP Redirector](https://www.cobaltstrike.com/blog/simple-dns-redirectors-for-cobalt-strike)
@@ -57,13 +62,15 @@
 
 [DLL Injection](https://www.ired.team/offensive-security/code-injection-process-injection/dll-injection)
 
+### System Call References
+
 [CreateProcessW](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw) - create a process that will have the same access token as the caller 
 
 [CreateProcessAsUserW](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessasuserw) - create a process using an alternate access token
 
 [CreateProcessWithLogonW](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithlogonw) - create a process using a user's plaintext credentials
 
-Ultimately, each API calls into the NtCreateUserProcess kernel function.
+Each API calls into the NtCreateUserProcess kernel function.
 
 # Post-Exploitation
 
