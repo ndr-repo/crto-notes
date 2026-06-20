@@ -109,7 +109,27 @@ whoami /priv
 
 [DNS & HTTP Pivoting with Cobalt Strike’s Beacon](https://m.youtube.com/watch?v=yt7xC1-h9ec)
 
+# Domain Dominance
 
+## Situational Awareness
+
+## Beacon Usage
+
+- Add "run " to the start of any command listed below 
+
+### Windows Command Shell
+
+```
+dsregcmd /status
+```
+
+```
+nltest /PARENTDOMAIN
+```
+
+```
+nltest /DOMAIN_TRUSTS /SERVER:example.tld /ALL_TRUSTS
+```
 
 # AppLocker
 
