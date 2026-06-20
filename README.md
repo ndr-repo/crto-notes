@@ -111,3 +111,52 @@ whoami /priv
 
 
 
+# AppLocker
+
+## Get the applied AppLocker policy for the host
+```
+Get-AppLockerPolicy -Effective
+```
+## Get all file extensions with collection rules
+```
+Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollectionTypes
+```
+
+## Retrive code execution policies configured in the registry 
+ - Not limited to AppLocker, helpful for situational awareness at times
+```
+Get-ChildItem -Recurse 'HKLM:SOFTWARE\Policies' -ErrorAction SilentlyContinue | more
+```
+
+## Alternative - Windows Command Shell
+```
+cmd /c reg /query 'HKLM\SOFTWARE\Policies' /s | more
+```
+
+## Generate a CSV of AppLocker information for all executables in Program Files, Program Files (x86), & current User's AppData folder 
+- Red Team - OPSEC tip: This will generate PowerShell event logs if your user is unable to access the executable. Use responsibly.
+```
+Set-Location "C:\Program Files\" ; extSearcher .exe | Select-Object -ExpandProperty FullName | % { Get-AppLockerFileInformation -Path "$_" } | ConvertTo-Csv -NoTypeInformation -ErrorAction SilentlyContinue
+Set-Location "C:\Program Files (x86)\" ; extSearcher .exe | Select-Object -ExpandProperty FullName | % { Get-AppLockerFileInformation -Path "$_" } | ConvertTo-Csv -NoTypeInformation -ErrorAction SilentlyContinue
+```
+### Installing extSearcher 
+```
+git clone https://github.com/ndr-repo/timetable
+cd timetable
+pwsh -NoExit -Command "Import-Module ./Setup.ps1"
+```
+
+### Detection PoC - PowerShell Errors in Windows Event Log
+```
+Get-WinEvent -FilterHashtable @{LogName = 'Microsoft-Windows-PowerShell/Operational' ; Id = 4100 } -ErrorAction SilentlyContinue | Select-Object -Property TimeCreated,Id,LevelDisplayName,Message | Format-Table -Wrap -AutoSize
+```
+
+### CSV Output
+- Not a replacement for exported XML Windows Event Logs for SIEM
+```
+Get-WinEvent -FilterHashtable @{LogName = 'Microsoft-Windows-PowerShell/Operational' ; Id = 4100 } -ErrorAction SilentlyContinue | Select-Object -Property TimeCreated,Id,LevelDisplayName,Message | ConvertTo-Csv -NoTypeInformation
+```
+
+
+
+
