@@ -109,6 +109,21 @@ whoami /priv
 
 [DNS & HTTP Pivoting with Cobalt Strike’s Beacon](https://m.youtube.com/watch?v=yt7xC1-h9ec)
 
+# Domain Dominance 
+
+## Domain Enumeration one-liners
+```
+nltest /parentdomain
+```
+
+```
+nltest /domain_trusts /server:dc1.domain.tld /all_trusts
+```
+
+```
+dsregcmd /status
+```
+
 
 
 # AppLocker
@@ -117,6 +132,8 @@ whoami /priv
 ```
 Get-AppLockerPolicy -Effective
 ```
+
+
 ## Get all file extensions with collection rules
 ```
 Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollectionTypes
@@ -158,7 +175,6 @@ Get-WinEvent -FilterHashtable @{LogName = 'Microsoft-Windows-PowerShell/Operatio
 ```
 
 # AppLocker Bypass & Code Execution
-
 
 ## LOLBAS - rundll32 -> chained with conhost.exe & Windows Command Shell (ie: cmd /c ) to run PowerShell 
 
